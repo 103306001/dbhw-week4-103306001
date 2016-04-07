@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>dbhw-103306001</title>
+     <link rel="stylesheet" type="text/css" href="css/init.css">
+     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+     <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+     <script src="/javascripts/application.js" type="text/javascript" charset="utf-8" async defer></script>
+     <script type="text/javascript" src="./main.js"></script>
+</head>
+
+<body>
+   
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">臺北旅遊住宿資料</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="container">
+            <br>
+            <br>
+            <h1>Nothing can take your trip away.</h1>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Example row of columns -->
+        <div id="content" class="row"></div>
+        <div class="circle"><li></li></div>
+        <div class="sk-cube-grid">
+            <!-- <div class="circle"><li></li></div> -->
+            <div class="sk-cube sk-cube1"></div>
+            <div class="sk-cube sk-cube2"></div>
+            <div class="sk-cube sk-cube3"></div>
+            <div class="sk-cube sk-cube4"></div>
+            <div class="sk-cube sk-cube5"></div>
+            <div class="sk-cube sk-cube6"></div>
+            <div class="sk-cube sk-cube7"></div>
+            <div class="sk-cube sk-cube8"></div>
+            <div class="sk-cube sk-cube9"></div>
+        </div>
+        <hr>
+        <footer>
+            <p>&copy; MIS 103306001</p>
+        </footer>
+    </div>
+    <!-- /container -->
+</body>
+<script type="text/javascript">
+$(document).ready(function() {
+    getData(function(err, data) {
+        if (err) {
+            console.log(err);
+        } else {
+            var travelList = data.result.results;
+            var HTMLtravelList = travelList.map(function(travel) {
+                var HTMLString = "<div class='col-md-4 drop-" + (Math.round(Math.random() * 10000 % 3) + 1) + "'><h2>" + travel.stitle + "</h2><h2>" + travel.CAT2 + "</h2>";
+                if (travel.file != null) {
+                    HTMLString = HTMLString + "<img class='imgOfHotel' src='" + travel.file + "'>";
+                }
+                // <img class='imgOfHotel' src='" + travel.file + "'><p><ul class='list-group'>";
+                var items = "";
+                for (var key in travel) {
+
+                	if (key == "xbody") {
+                        items = items + "<li class='list-group-item'>" + "內容" + ":" + travel[key] + "</li>";
+                    }
+                    if (key == "address") {
+                        items = items + "<li class='list-group-item'>" + "地址" + ":" + travel[key] + "</li>";
+                    }
+                 
+                    if (key == "longitude") {
+                        items = items + "<li class='list-group-item'>" + "緯度" + ":" + travel[key] + "</li>";
+                    }
+                    if (key == "latitude") {
+                        items = items + "<li class='list-group-item'>" + "經度" + ":" + travel[key] + "</li>";
+                    }
+                   
+                }
+                var HTMLString = HTMLString + "<p><ul class='list-group'>" + items + "</ul></p><div>";
+                return HTMLString;
+            });
+            HTMLtravelList.forEach(function(html) {
+                $(html).appendTo("#content");
+            });
+            $('.sk-cube-grid').css('display', 'none');
+            $('.circle').css('display', 'none');
+        }
+    });
+});
+</script>
+
+
+</body>
+</html>
